@@ -60,6 +60,5 @@ project(RVO)
 include(CTest)
 
 add_subdirectory(src)
-add_subdirectory(examples)
 
 include(CPack)
