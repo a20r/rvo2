@@ -81,7 +81,7 @@ void q2_pose_callback(geometry_msgs::PoseStamped p_q2) {
 }
 
 int main(int argc, char *argv[]) {
-    ros::init(argc, argv, "rov2_sim");
+    ros::init(argc, argv, "rov2_example");
     ros::NodeHandle n;
     q0_sub = n.subscribe("/q0/ground_truth_to_tf/pose", 0, q0_pose_callback);
     q1_sub = n.subscribe("/q1/ground_truth_to_tf/pose", 0, q1_pose_callback);

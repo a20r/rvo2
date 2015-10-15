@@ -1,4 +1,5 @@
+#!/usr/bin/env bash
 
-sudo apt-get install ros-indigo-hector-*
+apt-get install ros-indigo-hector-*
 mkdir resources/RVO2-3D/build/
-cd resources/RVO2-3D/build; cmake ..; make; sudo make install; cd -;
+cd resources/RVO2-3D/build; cmake ..; make; make install; cd -;
