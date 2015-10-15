@@ -3,7 +3,6 @@
 #include "ros/ros.h"
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/Twist.h"
-#include <signal.h>
 
 using namespace std;
 
