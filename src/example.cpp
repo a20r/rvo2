@@ -3,6 +3,7 @@
 #include "ros/ros.h"
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/Twist.h"
+#include "rvo2/utility.hpp"
 
 using namespace std;
 
@@ -16,21 +17,6 @@ ros::Publisher q0_cmd_vel, q1_cmd_vel, q2_cmd_vel;
 ros::Subscriber q0_sub, q1_sub, q2_sub;
 RVO::Vector3 q0_vel, q1_vel, q2_vel;
 ros::Time lt_0, lt_1, lt_2;
-
-inline RVO::Vector3 pose_to_vector(geometry_msgs::PoseStamped pose) {
-    float x = pose.pose.position.x;
-    float y = pose.pose.position.y;
-    float z = pose.pose.position.z;
-    return RVO::Vector3(x, y, z);
-}
-
-inline geometry_msgs::Twist vector_to_twist(RVO::Vector3 vec) {
-    geometry_msgs::Twist twist;
-    twist.linear.x = vec.x();
-    twist.linear.y = vec.y();
-    twist.linear.z = vec.z();
-    return twist;
-}
 
 void q0_pose_callback(geometry_msgs::PoseStamped p_q0) {
     if (!q0_pos_set) {
