@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <!-- Start Gazebo with wg world running in (max) realtime -->
+    <include file="$(find hector_gazebo_worlds)/launch/start.launch"/>
+
+    <!-- Spawn simulated quadrotor uav -->
+    <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch"
+        ns="q0">
+        <arg name="model"
+            value="$(find hector_quadrotor_description)/urdf/quadrotor_hokuyo_utm30lx.gazebo.xacro"/>
+        <arg name="x" value="0.0"/>
+        <arg name="y" value="0.0"/>
+        <arg name="z" value="0.3"/>
+        <arg name="name" value="q0"/>
+    </include>
+
+    <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch"
+        ns="q1">
+        <arg name="model"
+            value="$(find hector_quadrotor_description)/urdf/quadrotor_hokuyo_utm30lx.gazebo.xacro"/>
+        <arg name="x" value="5.0"/>
+        <arg name="y" value="5.0"/>
+        <arg name="z" value="0.3"/>
+        <arg name="name" value="q1"/>
+    </include>
+
+    <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch"
+        ns="q2">
+        <arg name="model"
+            value="$(find hector_quadrotor_description)/urdf/quadrotor_hokuyo_utm30lx.gazebo.xacro"/>
+        <arg name="x" value="5.0"/>
+        <arg name="y" value="0"/>
+        <arg name="z" value="0.3"/>
+        <arg name="name" value="q2"/>
+    </include>
+
+    <node pkg="rvo2" type="rvo2_node" name="rvo2">
+        <!-- <param name="cmd_vel_topic" type="string" value="/q2/cmd_vel"/> -->
+        <!-- <param name="pref_vel_topic" type="string" value="/q2/pref_vel"/> -->
+        <rosparam>
+            position_topics:
+                - /q0/ground_truth_to_tf/pose
+                - /q1/ground_truth_to_tf/pose
+            cmd_vel_topic: /q2/cmd_vel
+            pref_vel_topic: /q2/pref_vel
+        </rosparam>
+    </node>
+</launch>

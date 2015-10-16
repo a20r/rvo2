@@ -21,4 +21,12 @@ inline geometry_msgs::Twist vector_to_twist(RVO::Vector3 vec) {
     return twist;
 }
 
+inline RVO::Vector3 twist_to_vector(geometry_msgs::Twist twist) {
+    float x, y, z;
+    x = twist.linear.x;
+    y = twist.linear.y;
+    z = twist.linear.z;
+    return RVO::Vector3(x, y, z);
+}
+
 #endif

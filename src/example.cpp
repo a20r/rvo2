@@ -67,7 +67,7 @@ void q2_pose_callback(geometry_msgs::PoseStamped p_q2) {
 }
 
 int main(int argc, char *argv[]) {
-    ros::init(argc, argv, "rov2_example");
+    ros::init(argc, argv, "rvo2_example");
     ros::NodeHandle n;
     q0_sub = n.subscribe("/q0/ground_truth_to_tf/pose", 0, q0_pose_callback);
     q1_sub = n.subscribe("/q1/ground_truth_to_tf/pose", 0, q1_pose_callback);
@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
         if (q0_pos_set and q1_pos_set and q2_pos_set) {
             RVO::RVOSimulator *sim = new RVO::RVOSimulator();
             sim->setTimeStep(1.0 / 30);
-            sim->setAgentDefaults(1.5, 2, 10, 1, 0.5);
+            sim->setAgentDefaults(1.5, 2, 10, 2, 0.5);
             sim->addAgent(pose_to_vector(q0_pose));
             sim->addAgent(pose_to_vector(q1_pose));
             sim->addAgent(pose_to_vector(q2_pose));
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]) {
             ros::Rate r(30);
             ros::Time st = ros::Time::now();
             while (ros::ok()) {
-                sim->globalTime_ = (ros::Time::now() - st).toSec();
+                // sim->globalTime_ = (ros::Time::now() - st).toSec();
                 sim->setAgentPosition(0, pose_to_vector(q0_pose));
                 sim->setAgentPosition(1, pose_to_vector(q1_pose));
                 sim->setAgentPosition(2, pose_to_vector(q2_pose));
