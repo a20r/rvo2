@@ -43,6 +43,7 @@
             position_topics:
                 - /q0/ground_truth_to_tf/pose
                 - /q1/ground_truth_to_tf/pose
+            pose_topic: /q2/ground_truth_to_tf/pose
             cmd_vel_topic: /q2/cmd_vel
             pref_vel_topic: /q2/pref_vel
         </rosparam>

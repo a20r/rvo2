@@ -27,6 +27,7 @@ class PoseSubscriber {
         void callback(geometry_msgs::PoseStamped ps);
         void set_pref_vel(RVO::Vector3);
         void set_pref_vel(geometry_msgs::Twist);
+        int get_id();
 };
 
 #endif

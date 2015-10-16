@@ -29,17 +29,22 @@ void PoseSubscriber::callback(geometry_msgs::PoseStamped ps) {
         float cur_time = ros::Time::now().toSec();
         float dt = cur_time - time + EPS;
         RVO::Vector3 vel = (pose_to_vector(ps) - pos) / dt;
-        sim->setAgentPrefVelocity(id, vel);
         sim->setAgentVelocity(id, vel);
         time = cur_time;
     }
+    sim->globalTime_ = time;
     pos = pose_to_vector(ps);
 }
 
 void PoseSubscriber::set_pref_vel(RVO::Vector3 vel) {
+    sim->setAgentPrefVelocity(id, vel);
     this->pref_vel = vel;
 }
 
 void PoseSubscriber::set_pref_vel(geometry_msgs::Twist vel) {
-    this->pref_vel = twist_to_vector(vel);
+    this->set_pref_vel(twist_to_vector(vel));
+}
+
+int PoseSubscriber::get_id() {
+    return this->id;
 }
