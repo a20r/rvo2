@@ -10,7 +10,7 @@ class PoseSubscriber {
 
     protected:
         RVO::RVOSimulator *sim;
-        ros::NodeHandle n;
+        ros::NodeHandle *n;
         ros::Subscriber sub;
         string topic;
         RVO::Vector3 pos;
@@ -22,8 +22,7 @@ class PoseSubscriber {
     public:
         ~PoseSubscriber() {};
         PoseSubscriber() {};
-        PoseSubscriber(ros::NodeHandle, RVO::RVOSimulator *, string);
-        void start();
+        PoseSubscriber(ros::NodeHandle *, RVO::RVOSimulator *, string);
         void callback(geometry_msgs::PoseStamped ps);
         void set_pref_vel(RVO::Vector3);
         void set_pref_vel(geometry_msgs::Twist);

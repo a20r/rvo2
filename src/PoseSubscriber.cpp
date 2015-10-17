@@ -6,16 +6,13 @@
 #include "rvo2/PoseSubscriber.hpp"
 #include "rvo2/utility.hpp"
 
-PoseSubscriber::PoseSubscriber(ros::NodeHandle n, RVO::RVOSimulator *sim,
+PoseSubscriber::PoseSubscriber(ros::NodeHandle *n, RVO::RVOSimulator *sim,
         string topic) {
     this->sim = sim;
     this->topic = topic;
     this->pos_set = false;
     this->pref_vel = RVO::Vector3(0, 0, 0);
-}
-
-void PoseSubscriber::start() {
-    sub = n.subscribe(topic, 0, &PoseSubscriber::callback, this);
+    this->sub = n->subscribe(topic, 0, &PoseSubscriber::callback, this);
 }
 
 void PoseSubscriber::callback(geometry_msgs::PoseStamped ps) {
