@@ -72,9 +72,13 @@ int main(int argc, char *argv[]) {
     q0_sub = n.subscribe("/q0/ground_truth_to_tf/pose", 0, q0_pose_callback);
     q1_sub = n.subscribe("/q1/ground_truth_to_tf/pose", 0, q1_pose_callback);
     q2_sub = n.subscribe("/q2/ground_truth_to_tf/pose", 0, q2_pose_callback);
-    q0_cmd_vel = n.advertise<geometry_msgs::Twist>("/q0/cmd_vel", 0);
-    q1_cmd_vel = n.advertise<geometry_msgs::Twist>("/q1/cmd_vel", 0);
-    q2_cmd_vel = n.advertise<geometry_msgs::Twist>("/q2/cmd_vel", 0);
+    // q0_cmd_vel = n.advertise<geometry_msgs::Twist>("/q0/cmd_vel", 0);
+    // q1_cmd_vel = n.advertise<geometry_msgs::Twist>("/q1/cmd_vel", 0);
+    // q2_cmd_vel = n.advertise<geometry_msgs::Twist>("/q2/cmd_vel", 0);
+    q0_cmd_vel = n.advertise<geometry_msgs::Twist>("/q0/pref_vel", 0);
+    q1_cmd_vel = n.advertise<geometry_msgs::Twist>("/q1/pref_vel", 0);
+    q2_cmd_vel = n.advertise<geometry_msgs::Twist>("/q2/pref_vel", 0);
+
 
     while (ros::ok()) {
         ros::spinOnce();
@@ -101,9 +105,13 @@ int main(int argc, char *argv[]) {
                 sim->doStep();
 
                 // Sends commands to the quads
-                q0_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(0)));
-                q1_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(1)));
-                q2_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(2)));
+                // q0_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(0)));
+                // q1_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(1)));
+                // q2_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(2)));
+                q0_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(0)));
+                q1_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(1)));
+                q2_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(2)));
+
                 r.sleep();
                 ros::spinOnce();
             }

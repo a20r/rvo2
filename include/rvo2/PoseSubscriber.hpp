@@ -2,7 +2,7 @@
 #ifndef RVO2_POSE_SUBSCRIBER_H
 #define RVO2_POSE_SUBSCRIBER_H
 
-#define EPS 0.00001
+#define EPS 0.00000001
 
 using namespace std;
 
@@ -13,11 +13,10 @@ class PoseSubscriber {
         ros::NodeHandle *n;
         ros::Subscriber sub;
         string topic;
-        RVO::Vector3 pos;
+        RVO::Vector3 pos, pref_vel;
         bool pos_set;
         int id;
         float time;
-        RVO::Vector3 pref_vel;
 
     public:
         ~PoseSubscriber() {};

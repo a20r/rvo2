@@ -20,7 +20,7 @@ ros::NodeHandle *n;
 RVO::RVOSimulator *init_sim() {
     RVO::RVOSimulator *rvo_sim = new RVO::RVOSimulator();
     rvo_sim->setTimeStep(1.0 / 30);
-    rvo_sim->setAgentDefaults(2, 2, 10, 2, 0.5);
+    rvo_sim->setAgentDefaults(3, 2, 10, 3, 0.5);
     return rvo_sim;
 }
 
@@ -50,8 +50,8 @@ int main(int argc, char *argv[]) {
     }
 
     pose_sub = PoseSubscriber(n, sim, pose_topic);
-    pref_vel_sub = n->subscribe(pref_vel_topic, 0, pref_vel_callback);
     cmd_vel_pub = n->advertise<geometry_msgs::Twist>(cmd_vel_topic, 0);
+    pref_vel_sub = n->subscribe(pref_vel_topic, 0, pref_vel_callback);
 
     ros::spin();
 }

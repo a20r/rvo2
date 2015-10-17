@@ -16,21 +16,22 @@ PoseSubscriber::PoseSubscriber(ros::NodeHandle *n, RVO::RVOSimulator *sim,
 }
 
 void PoseSubscriber::callback(geometry_msgs::PoseStamped ps) {
+    float cur_time = ros::Time::now().toSec();
+    RVO::Vector3 new_pos = pose_to_vector(ps);
     if (!pos_set) {
         pos_set = true;
-        id = sim->addAgent(pose_to_vector(ps));
+        id = sim->addAgent(new_pos);
         sim->setAgentPrefVelocity(id, pref_vel);
         sim->setAgentVelocity(id, pref_vel);
-        time = ros::Time::now().toSec();
     } else {
-        float cur_time = ros::Time::now().toSec();
         float dt = cur_time - time + EPS;
-        RVO::Vector3 vel = (pose_to_vector(ps) - pos) / dt;
+        RVO::Vector3 vel = (new_pos - pos) / dt;
         sim->setAgentVelocity(id, vel);
-        time = cur_time;
     }
+    sim->setAgentPosition(id, new_pos);
+    time = cur_time;
     sim->globalTime_ = time;
-    pos = pose_to_vector(ps);
+    pos = new_pos;
 }
 
 void PoseSubscriber::set_pref_vel(RVO::Vector3 vel) {
