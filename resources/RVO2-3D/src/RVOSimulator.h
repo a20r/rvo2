@@ -335,6 +335,8 @@ namespace RVO {
 		 */
 		RVO_API void setTimeStep(float timeStep);
 
+		RVO_API Vector3 compute_new_velocity(int id);
+
 	public:
 		Agent *defaultAgent_;
 		KdTree *kdTree_;

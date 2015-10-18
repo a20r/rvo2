@@ -23,7 +23,6 @@ void PrefVelSubscriber::start() {
 
 void PrefVelSubscriber::callback(geometry_msgs::Twist pref_vel) {
     sim->setAgentPrefVelocity(id, twist_to_vector(pref_vel));
-    sim->doStep();
-    RVO::Vector3 vel = sim->getAgentVelocity(id);
+    RVO::Vector3 vel = sim->compute_new_velocity(id);
     pub.publish(vector_to_twist(vel));
 }

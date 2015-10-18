@@ -166,6 +166,13 @@ namespace RVO {
 		return agents_.size() - 1;
 	}
 
+	Vector3 RVOSimulator::compute_new_velocity(int id) {
+	    kdTree_->buildAgentTree();
+	    agents_[id]->computeNeighbors();
+	    agents_[id]->computeNewVelocity();
+	    return agents_[id]->newVelocity_;
+    }
+
 	void RVOSimulator::doStep()
 	{
 		kdTree_->buildAgentTree();

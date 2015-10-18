@@ -110,7 +110,7 @@ int main(int argc, char *argv[]) {
                 // q2_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(2)));
                 q0_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(0)));
                 q1_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(1)));
-                // q2_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(2)));
+                q2_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(2)));
 
                 r.sleep();
                 ros::spinOnce();

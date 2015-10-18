@@ -54,5 +54,5 @@
     </node>
 
     <node pkg="rvo2" type="example" name="rvo2_example"/>
-    <!-- <include file="$(find rvo2)/launch/xbox_controller.launch"/> -->
+    <include file="$(find rvo2)/launch/xbox_controller.launch"/>
 </launch>
