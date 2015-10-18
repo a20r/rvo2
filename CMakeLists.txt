@@ -30,5 +30,6 @@ include_directories(
 
 add_executable(example src/example.cpp)
 target_link_libraries(example ${catkin_LIBRARIES} RVO)
-add_executable(rvo2_node src/rvo2_node.cpp src/PoseSubscriber.cpp)
+add_executable(rvo2_node src/rvo2_node.cpp src/PoseSubscriber.cpp
+    src/PrefVelSubscriber.cpp)
 target_link_libraries(rvo2_node ${catkin_LIBRARIES} RVO)

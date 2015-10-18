@@ -8,10 +8,15 @@
 
 PoseSubscriber::PoseSubscriber(ros::NodeHandle *n, RVO::RVOSimulator *sim,
         string topic) {
+    this->n = n;
     this->sim = sim;
     this->topic = topic;
     this->pos_set = false;
     this->pref_vel = RVO::Vector3(0, 0, 0);
+    this->sub = n->subscribe(topic, 0, &PoseSubscriber::callback, this);
+}
+
+void PoseSubscriber::start() {
     this->sub = n->subscribe(topic, 0, &PoseSubscriber::callback, this);
 }
 

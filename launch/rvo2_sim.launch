@@ -36,34 +36,20 @@
         <arg name="name" value="q2"/>
     </include>
 
-    <node pkg="rvo2" type="rvo2_node" name="rvo2_q2" output="screen">
+    <node pkg="rvo2" type="rvo2_node" name="rvo2" output="screen">
         <rosparam>
             position_topics:
                 - /q0/ground_truth_to_tf/pose
                 - /q1/ground_truth_to_tf/pose
-            pose_topic: /q2/ground_truth_to_tf/pose
-            cmd_vel_topic: /q2/cmd_vel
-            pref_vel_topic: /q2/pref_vel
-        </rosparam>
-    </node>
-    <node pkg="rvo2" type="rvo2_node" name="rvo2_q1" output="screen">
-        <rosparam>
-            position_topics:
-                - /q0/ground_truth_to_tf/pose
                 - /q2/ground_truth_to_tf/pose
-            pose_topic: /q1/ground_truth_to_tf/pose
-            cmd_vel_topic: /q1/cmd_vel
-            pref_vel_topic: /q1/pref_vel
-        </rosparam>
-    </node>
-    <node pkg="rvo2" type="rvo2_node" name="rvo2_q0" output="screen">
-        <rosparam>
-            position_topics:
-                - /q1/ground_truth_to_tf/pose
-                - /q2/ground_truth_to_tf/pose
-            pose_topic: /q0/ground_truth_to_tf/pose
-            cmd_vel_topic: /q0/cmd_vel
-            pref_vel_topic: /q0/pref_vel
+            cmd_vel_topics:
+                - /q0/cmd_vel
+                - /q1/cmd_vel
+                - /q2/cmd_vel
+            pref_vel_topics:
+                - /q0/pref_vel
+                - /q1/pref_vel
+                - /q2/pref_vel
         </rosparam>
     </node>
 
