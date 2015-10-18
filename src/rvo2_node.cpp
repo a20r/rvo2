@@ -19,7 +19,7 @@ ros::NodeHandle *n;
 RVO::RVOSimulator *init_sim() {
     RVO::RVOSimulator *rvo_sim = new RVO::RVOSimulator();
     rvo_sim->setTimeStep(1.0 / 30);
-    rvo_sim->setAgentDefaults(3, 2, 10, 3, 1);
+    rvo_sim->setAgentDefaults(2, 2, 100, 2, 1);
     return rvo_sim;
 }
 
@@ -27,6 +27,7 @@ int main(int argc, char *argv[]) {
     // Initializing ROS
     ros::init(argc, argv, "rvo2");
     n = new ros::NodeHandle();
+    ros::MultiThreadedSpinner spinner(8);
 
     // Setting up parameters
     vector<string> p_topics, cv_topics, pv_topics;
@@ -44,5 +45,5 @@ int main(int argc, char *argv[]) {
         pref_vel_subs[i]->start();
     }
 
-    ros::spin();
+    spinner.spin();
 }

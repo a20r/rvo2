@@ -2,7 +2,7 @@
 #ifndef RVO2_POSE_SUBSCRIBER_H
 #define RVO2_POSE_SUBSCRIBER_H
 
-#define EPS 0.00000001
+#define EPS 0.001
 #include "rvo2/PrefVelSubscriber.hpp"
 
 using namespace std;

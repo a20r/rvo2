@@ -77,7 +77,7 @@ namespace RVO {
 		 * \brief   The direction of the directed line.
 		 */
 		Vector3 direction;
-		
+
 		/**
 		 * \brief   A point on the directed line.
 		 */
@@ -442,14 +442,14 @@ namespace RVO {
 					plane.normal = normalize(planes[j].normal - planes[i].normal);
 					projPlanes.push_back(plane);
 				}
-				
+
 				const Vector3 tempResult = result;
-				
+
 				if (linearProgram3(projPlanes, radius, planes[i].normal, true, result) < projPlanes.size()) {
 					/* This should in principle not happen.  The result is by definition already in the feasible region of this linear program. If it fails, it is due to small floating point error, and the current result is kept. */
 					result = tempResult;
 				}
-				
+
 				distance = planes[i].normal * (planes[i].point - result);
 			}
 		}
