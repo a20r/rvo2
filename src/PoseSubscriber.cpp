@@ -3,15 +3,17 @@
 #include "ros/ros.h"
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/Twist.h"
-#include "rvo2/PoseSubscriber.hpp"
+#include "rvo2/PrefVelSubscriber.hpp"
 #include "rvo2/utility.hpp"
+#include "rvo2/PoseSubscriber.hpp"
 
 PoseSubscriber::PoseSubscriber(ros::NodeHandle *n, RVO::RVOSimulator *sim,
-        string topic) {
+        string topic, PrefVelSubscriber *pv_sub) {
     this->n = n;
     this->sim = sim;
     this->topic = topic;
     this->pos_set = false;
+    this->pv_sub = pv_sub;
     this->pref_vel = RVO::Vector3(0, 0, 0);
     this->sub = n->subscribe(topic, 0, &PoseSubscriber::callback, this);
 }
@@ -26,11 +28,12 @@ void PoseSubscriber::callback(geometry_msgs::PoseStamped ps) {
     if (!pos_set) {
         pos_set = true;
         id = sim->addAgent(new_pos);
+        pv_sub->set_id(id);
         sim->setAgentPrefVelocity(id, pref_vel);
         sim->setAgentVelocity(id, pref_vel);
     } else {
         float dt = cur_time - time + EPS;
-        RVO::Vector3 vel = (new_pos - pos) / dt;
+        RVO::Vector3 vel = (new_pos - pos);
         sim->setAgentVelocity(id, vel);
     }
     sim->setAgentPosition(id, new_pos);

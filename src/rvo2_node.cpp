@@ -19,7 +19,7 @@ ros::NodeHandle *n;
 RVO::RVOSimulator *init_sim() {
     RVO::RVOSimulator *rvo_sim = new RVO::RVOSimulator();
     rvo_sim->setTimeStep(1.0 / 30);
-    rvo_sim->setAgentDefaults(2, 2, 10, 2, 0.5);
+    rvo_sim->setAgentDefaults(3, 2, 10, 3, 1);
     return rvo_sim;
 }
 
@@ -36,9 +36,10 @@ int main(int argc, char *argv[]) {
     sim = init_sim();
 
     for (int i = 0; i < p_topics.size(); i++) {
-        pose_subs.push_back(new PoseSubscriber(n, sim, p_topics[i]));
         pref_vel_subs.push_back(new PrefVelSubscriber(n, sim,
-                    pv_topics[i], cv_topics[i], i));
+                    pv_topics[i], cv_topics[i]));
+        pose_subs.push_back(new PoseSubscriber(n, sim, p_topics[i],
+                    pref_vel_subs[i]));
         pose_subs[i]->start();
         pref_vel_subs[i]->start();
     }

@@ -18,8 +18,9 @@ class PrefVelSubscriber {
         ~PrefVelSubscriber() {};
         PrefVelSubscriber() {};
         PrefVelSubscriber(ros::NodeHandle *, RVO::RVOSimulator *,
-                string, string, int);
+                string, string);
         void start();
+        void set_id(int);
         void callback(geometry_msgs::Twist vel);
 };
 

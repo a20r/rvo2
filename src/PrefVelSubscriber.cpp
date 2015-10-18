@@ -7,12 +7,12 @@
 
 PrefVelSubscriber::PrefVelSubscriber(ros::NodeHandle *n,
         RVO::RVOSimulator *sim, string pref_vel_topic,
-        string cmd_vel_topic, int id) {
+        string cmd_vel_topic) {
     this->n = n;
     this->sim = sim;
     this->pref_vel_topic = pref_vel_topic;
     this->cmd_vel_topic = cmd_vel_topic;
-    this->id = id;
+    this->id = -1;
 }
 
 void PrefVelSubscriber::start() {
@@ -21,8 +21,14 @@ void PrefVelSubscriber::start() {
             &PrefVelSubscriber::callback, this);
 }
 
+void PrefVelSubscriber::set_id(int id) {
+    this->id = id;
+}
+
 void PrefVelSubscriber::callback(geometry_msgs::Twist pref_vel) {
-    sim->setAgentPrefVelocity(id, twist_to_vector(pref_vel));
-    RVO::Vector3 vel = sim->compute_new_velocity(id);
-    pub.publish(vector_to_twist(vel));
+    if (id >= 0) {
+        sim->setAgentPrefVelocity(id, twist_to_vector(pref_vel));
+        RVO::Vector3 vel = sim->compute_new_velocity(id);
+        pub.publish(vector_to_twist(vel));
+    }
 }
