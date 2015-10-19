@@ -13,6 +13,7 @@ class PrefVelSubscriber {
         ros::Publisher pub;
         string pref_vel_topic, cmd_vel_topic;
         int id;
+        float time;
 
     public:
         ~PrefVelSubscriber() {};

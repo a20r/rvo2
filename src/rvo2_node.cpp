@@ -20,8 +20,12 @@ ros::NodeHandle *n;
 
 RVO::RVOSimulator *init_sim() {
     RVO::RVOSimulator *rvo_sim = new RVO::RVOSimulator();
-    rvo_sim->setTimeStep(1.5);
-    rvo_sim->setAgentDefaults(2, 2, 10, 2, 1);
+    // This parameter is fucking stupid
+    float dist = 2;
+    float radius = 1;
+    float speed = 1;
+    rvo_sim->setAgentDefaults(dist, 2, 10, radius, speed, RVO::Vector3(0, 0, 0));
+    rvo_sim->setTimeStep(1.2);
     return rvo_sim;
 }
 

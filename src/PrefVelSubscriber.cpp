@@ -13,6 +13,7 @@ PrefVelSubscriber::PrefVelSubscriber(ros::NodeHandle *n,
     this->pref_vel_topic = pref_vel_topic;
     this->cmd_vel_topic = cmd_vel_topic;
     this->id = -1;
+    this->time = ros::Time::now().toSec();
 }
 
 void PrefVelSubscriber::start() {
@@ -27,7 +28,10 @@ void PrefVelSubscriber::set_id(int id) {
 
 void PrefVelSubscriber::callback(geometry_msgs::Twist pref_vel) {
     if (id >= 0) {
+        float cur_time = ros::Time::now().toSec();
         sim->setAgentPrefVelocity(id, twist_to_vector(pref_vel));
+        // sim->setTimeStep((cur_time - time) / 3.0);
+        time = cur_time;
         RVO::Vector3 vel = sim->compute_new_velocity(id);
         pub.publish(vector_to_twist(vel));
     }
