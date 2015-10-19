@@ -24,6 +24,6 @@ void VelocitySubscriber::set_id(int id) {
 
 void VelocitySubscriber::callback(geometry_msgs::Vector3Stamped vel) {
     if (id >= 0) {
-        sim->setAgentVelocity(id, vector_to_vector(vel));
+        // sim->setAgentVelocity(id, vector_to_vector(vel));
     }
 }

@@ -2,7 +2,7 @@
 #ifndef RVO2_POSE_SUBSCRIBER_H
 #define RVO2_POSE_SUBSCRIBER_H
 
-#define EPS 0.001
+#define EPS 0.0001
 
 #include "rvo2/PrefVelSubscriber.hpp"
 #include "rvo2/VelocitySubscriber.hpp"
@@ -18,7 +18,8 @@ class PoseSubscriber {
         PrefVelSubscriber *pv_sub;
         VelocitySubscriber *v_sub;
         string topic;
-        RVO::Vector3 pos, pref_vel;
+        RVO::Vector3 pos, vel;
+        float time;
         bool pos_set;
         int id;
 
@@ -29,6 +30,9 @@ class PoseSubscriber {
                 PrefVelSubscriber *, VelocitySubscriber *);
         void start();
         void callback(geometry_msgs::PoseStamped ps);
+        RVO::Vector3 get_vel();
+        RVO::Vector3 get_pos();
+        bool is_pos_set();
         int get_id();
 };
 

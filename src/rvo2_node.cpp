@@ -20,20 +20,28 @@ ros::NodeHandle *n;
 
 RVO::RVOSimulator *init_sim() {
     RVO::RVOSimulator *rvo_sim = new RVO::RVOSimulator();
-    // This parameter is fucking stupid
     float dist = 2;
-    float radius = 1;
-    float speed = 1;
+    float radius = 2;
+    float speed = 0.6;
     rvo_sim->setAgentDefaults(dist, 2, 10, radius, speed, RVO::Vector3(0, 0, 0));
-    rvo_sim->setTimeStep(1.2);
+    rvo_sim->setTimeStep(1.0 / 30);
     return rvo_sim;
+}
+
+bool agents_ready() {
+    for (int i = 0; i < pose_subs.size(); i++) {
+        if (!pose_subs[i]->is_pos_set()) {
+            return false;
+        }
+    }
+    return true;
 }
 
 int main(int argc, char *argv[]) {
     // Initializing ROS
     ros::init(argc, argv, "rvo2");
     n = new ros::NodeHandle();
-    ros::MultiThreadedSpinner spinner(8);
+    // ros::MultiThreadedSpinner spinner(8);
 
     // Setting up parameters
     vector<string> p_topics, cv_topics, pv_topics, v_topics;
@@ -42,6 +50,7 @@ int main(int argc, char *argv[]) {
     ros::param::get("~pref_vel_topics", pv_topics);
     ros::param::get("~velocity_topics", v_topics);
     sim = init_sim();
+    ros::Rate r(30);
 
     for (int i = 0; i < p_topics.size(); i++) {
         pref_vel_subs.push_back(new PrefVelSubscriber(n, sim,
@@ -55,5 +64,35 @@ int main(int argc, char *argv[]) {
         velocity_subs[i]->start();
     }
 
-    spinner.spin();
+    while (ros::ok()) {
+        ros::spinOnce();
+        if (agents_ready()) {
+            while (ros::ok()) {
+                sim->globalTime_ = ros::Time::now().toSec();
+                for (int i = 0; i < pose_subs.size(); i++) {
+                    RVO::Vector3 vel = pose_subs[i]->get_vel();
+                    RVO::Vector3 pos = pose_subs[i]->get_pos();
+                    int id = pose_subs[i]->get_id();
+                    sim->setAgentPosition(id, pos);
+                    sim->setAgentVelocity(id, vel);
+                    RVO::Vector3 pref_vel = pref_vel_subs[i]->get_pref_vel();
+                    int pv_id = pref_vel_subs[i]->get_id();
+                    sim->setAgentPrefVelocity(pv_id, pref_vel);
+                }
+
+                sim->doStep();
+
+                for (int i = 0; i < pref_vel_subs.size(); i++) {
+                    int id = pref_vel_subs[i]->get_id();
+                    ros::Publisher pub = pref_vel_subs[i]->get_pub();
+                    RVO::Vector3 vel = sim->getAgentVelocity(id);
+                    pub.publish(vector_to_twist(vel));
+                }
+
+                r.sleep();
+                ros::spinOnce();
+            }
+        }
+    }
+
 }

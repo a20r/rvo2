@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
         if (q0_pos_set and q1_pos_set and q2_pos_set) {
             RVO::RVOSimulator *sim = new RVO::RVOSimulator();
             sim->setTimeStep(1.0 / 30);
-            sim->setAgentDefaults(3, 2, 10, 3, 1);
+            sim->setAgentDefaults(2, 2, 10, 2, 1);
             sim->addAgent(pose_to_vector(q0_pose));
             sim->addAgent(pose_to_vector(q1_pose));
             sim->addAgent(pose_to_vector(q2_pose));
