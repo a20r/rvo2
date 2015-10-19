@@ -50,9 +50,13 @@
                 - /q0/pref_vel
                 - /q1/pref_vel
                 - /q2/pref_vel
+            velocity_topics:
+                - /q0/fix_velocity
+                - /q1/fix_velocity
+                - /q2/fix_velocity
         </rosparam>
     </node>
 
     <node pkg="rvo2" type="example" name="rvo2_example"/>
-    <include file="$(find rvo2)/launch/xbox_controller.launch"/>
+    <!-- <include file="$(find rvo2)/launch/xbox_controller.launch"/> -->
 </launch>

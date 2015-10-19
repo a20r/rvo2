@@ -21,7 +21,7 @@ class PrefVelSubscriber {
                 string, string);
         void start();
         void set_id(int);
-        void callback(geometry_msgs::Twist vel);
+        void callback(geometry_msgs::Twist);
 };
 
 #endif

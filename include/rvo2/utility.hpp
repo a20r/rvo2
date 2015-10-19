@@ -4,6 +4,7 @@
 
 #include <RVO.h>
 #include "geometry_msgs/PoseStamped.h"
+#include "geometry_msgs/Vector3Stamped.h"
 #include "geometry_msgs/Twist.h"
 
 inline RVO::Vector3 pose_to_vector(geometry_msgs::PoseStamped pose) {
@@ -26,6 +27,14 @@ inline RVO::Vector3 twist_to_vector(geometry_msgs::Twist twist) {
     x = twist.linear.x;
     y = twist.linear.y;
     z = twist.linear.z;
+    return RVO::Vector3(x, y, z);
+}
+
+inline RVO::Vector3 vector_to_vector(geometry_msgs::Vector3Stamped vec) {
+    float x, y, z;
+    x = vec.vector.x;
+    y = vec.vector.y;
+    z = vec.vector.z;
     return RVO::Vector3(x, y, z);
 }
 

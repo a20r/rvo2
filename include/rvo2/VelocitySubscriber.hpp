@@ -19,7 +19,7 @@ class VelocitySubscriber {
         VelocitySubscriber(ros::NodeHandle *, RVO::RVOSimulator *, string);
         void start();
         void set_id(int);
-        void callback(geometry_msgs::Vector3Stamped vel);
+        void callback(geometry_msgs::Vector3Stamped);
 };
 
 #endif
