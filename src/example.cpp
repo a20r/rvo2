@@ -13,7 +13,7 @@ void q2_pose_callback(geometry_msgs::PoseStamped);
 
 geometry_msgs::PoseStamped q0_pose, q1_pose, q2_pose;
 bool q0_pos_set = false, q1_pos_set = false, q2_pos_set = false;
-ros::Publisher q0_cmd_vel, q1_cmd_vel, q2_cmd_vel;
+ros::Publisher q0_cmd_vel, q1_cmd_vel, q2_cmd_vel, q3_cmd_vel;
 ros::Subscriber q0_sub, q1_sub, q2_sub;
 RVO::Vector3 q0_vel, q1_vel, q2_vel;
 ros::Time lt_0, lt_1, lt_2;
@@ -78,6 +78,7 @@ int main(int argc, char *argv[]) {
     q0_cmd_vel = n.advertise<geometry_msgs::Twist>("/q0/pref_vel", 0);
     q1_cmd_vel = n.advertise<geometry_msgs::Twist>("/q1/pref_vel", 0);
     q2_cmd_vel = n.advertise<geometry_msgs::Twist>("/q2/pref_vel", 0);
+    q3_cmd_vel = n.advertise<geometry_msgs::Twist>("/q3/pref_vel", 0);
 
 
     while (ros::ok()) {
@@ -108,9 +109,17 @@ int main(int argc, char *argv[]) {
                 // q0_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(0)));
                 // q1_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(1)));
                 // q2_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(2)));
-                q0_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(0)));
-                q1_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(1)));
-                q2_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(2)));
+                // q0_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(0)));
+                // q1_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(1)));
+                // q2_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(2)));
+                q0_cmd_vel.publish(vector_to_twist(
+                            RVO::normalize(RVO::Vector3(1, 1, 1))));
+                q1_cmd_vel.publish(vector_to_twist(
+                            RVO::normalize(RVO::Vector3(-1, -1, 1))));
+                q2_cmd_vel.publish(vector_to_twist(
+                            RVO::normalize(RVO::Vector3(-1, 1, 1))));
+                q3_cmd_vel.publish(vector_to_twist(
+                            RVO::normalize(RVO::Vector3(1, -1, 1))));
 
                 r.sleep();
                 ros::spinOnce();

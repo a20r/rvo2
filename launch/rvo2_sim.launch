@@ -36,27 +36,41 @@
         <arg name="name" value="q2"/>
     </include>
 
+    <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch"
+        ns="q3">
+        <arg name="model"
+            value="$(find hector_quadrotor_description)/urdf/quadrotor_hokuyo_utm30lx.gazebo.xacro"/>
+        <arg name="x" value="0"/>
+        <arg name="y" value="5.0"/>
+        <arg name="z" value="0.3"/>
+        <arg name="name" value="q3"/>
+    </include>
+
     <node pkg="rvo2" type="rvo2_node" name="rvo2" output="screen">
         <rosparam>
             position_topics:
                 - /q0/ground_truth_to_tf/pose
                 - /q1/ground_truth_to_tf/pose
                 - /q2/ground_truth_to_tf/pose
+                - /q3/ground_truth_to_tf/pose
             cmd_vel_topics:
                 - /q0/cmd_vel
                 - /q1/cmd_vel
                 - /q2/cmd_vel
+                - /q3/cmd_vel
             pref_vel_topics:
                 - /q0/pref_vel
                 - /q1/pref_vel
                 - /q2/pref_vel
+                - /q3/pref_vel
             velocity_topics:
                 - /q0/fix_velocity
                 - /q1/fix_velocity
                 - /q2/fix_velocity
+                - /q3/fix_velocity
         </rosparam>
     </node>
 
-    <node pkg="rvo2" type="example" name="rvo2_example"/>
+    <node pkg="rvo2" type="example" name="rvo2_example" output="screen"/>
     <!-- <include file="$(find rvo2)/launch/xbox_controller.launch"/> -->
 </launch>

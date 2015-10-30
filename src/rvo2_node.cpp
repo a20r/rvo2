@@ -22,8 +22,8 @@ RVO::RVOSimulator *init_sim() {
     RVO::RVOSimulator *rvo_sim = new RVO::RVOSimulator();
     float dist = 2;
     float radius = 2;
-    float speed = 0.6;
-    rvo_sim->setAgentDefaults(dist, 2, 10, radius, speed, RVO::Vector3(0, 0, 0));
+    float speed = 1;
+    rvo_sim->setAgentDefaults(dist, 2, 100, radius, speed);
     rvo_sim->setTimeStep(1.0 / 30);
     return rvo_sim;
 }
@@ -67,25 +67,26 @@ int main(int argc, char *argv[]) {
     while (ros::ok()) {
         ros::spinOnce();
         if (agents_ready()) {
+            for (int i = 0; i < pose_subs.size(); i++) {
+                sim->addAgent(pose_subs[i]->get_pos());
+            }
             while (ros::ok()) {
                 sim->globalTime_ = ros::Time::now().toSec();
                 for (int i = 0; i < pose_subs.size(); i++) {
                     RVO::Vector3 vel = pose_subs[i]->get_vel();
                     RVO::Vector3 pos = pose_subs[i]->get_pos();
-                    int id = pose_subs[i]->get_id();
-                    sim->setAgentPosition(id, pos);
-                    sim->setAgentVelocity(id, vel);
                     RVO::Vector3 pref_vel = pref_vel_subs[i]->get_pref_vel();
-                    int pv_id = pref_vel_subs[i]->get_id();
-                    sim->setAgentPrefVelocity(pv_id, pref_vel);
+                    sim->setAgentPrefVelocity(i, pref_vel);
+                    sim->setAgentPosition(i, pos);
+                    // sim->setAgentVelocity(i, RVO::normalize(vel));
+                    sim->setAgentVelocity(i, vel);
                 }
 
                 sim->doStep();
 
                 for (int i = 0; i < pref_vel_subs.size(); i++) {
-                    int id = pref_vel_subs[i]->get_id();
                     ros::Publisher pub = pref_vel_subs[i]->get_pub();
-                    RVO::Vector3 vel = sim->getAgentVelocity(id);
+                    RVO::Vector3 vel = sim->getAgentVelocity(i);
                     pub.publish(vector_to_twist(vel));
                 }
 

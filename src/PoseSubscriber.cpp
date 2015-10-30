@@ -25,19 +25,20 @@ void PoseSubscriber::start() {
 
 void PoseSubscriber::callback(geometry_msgs::PoseStamped ps) {
     RVO::Vector3 new_pos = pose_to_vector(ps);
-    if (!pos_set) {
-        pos_set = true;
-        pos = new_pos;
-        id = sim->addAgent(new_pos);
-        pv_sub->set_id(id);
-        v_sub->set_id(id);
-    }
     float cur_time = ros::Time::now().toSec();
     float dt = cur_time - time + EPS;
-    vel = (new_pos - pos) / dt;
-    pos = new_pos;
-    time = cur_time;
-    // sim->setAgentPosition(id, new_pos);
+    // if (dt > 0) {
+        if (!pos_set) {
+            pos_set = true;
+            pos = new_pos;
+            pv_sub->set_id(0);
+            v_sub->set_id(0);
+        }
+        vel = (new_pos - pos) / dt;
+        pos = new_pos;
+        time = cur_time;
+        // sim->setAgentPosition(id, new_pos);
+    // }
 }
 
 RVO::Vector3 PoseSubscriber::get_vel() {

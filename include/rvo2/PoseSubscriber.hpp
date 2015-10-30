@@ -2,7 +2,7 @@
 #ifndef RVO2_POSE_SUBSCRIBER_H
 #define RVO2_POSE_SUBSCRIBER_H
 
-#define EPS 0.0001
+#define EPS 0.0005
 
 #include "rvo2/PrefVelSubscriber.hpp"
 #include "rvo2/VelocitySubscriber.hpp"
