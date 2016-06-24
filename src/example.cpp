@@ -106,12 +106,12 @@ int main(int argc, char *argv[]) {
                 sim->doStep();
 
                 // Sends commands to the quads
-                // q0_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(0)));
-                // q1_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(1)));
-                // q2_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(2)));
-                // q0_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(0)));
-                // q1_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(1)));
-                // q2_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(2)));
+                q0_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(0)));
+                q1_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(1)));
+                q2_cmd_vel.publish(vector_to_twist(sim->getAgentVelocity(2)));
+                q0_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(0)));
+                q1_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(1)));
+                q2_cmd_vel.publish(vector_to_twist(sim->getAgentPrefVelocity(2)));
                 q0_cmd_vel.publish(vector_to_twist(
                             RVO::normalize(RVO::Vector3(1, 1, 1))));
                 q1_cmd_vel.publish(vector_to_twist(
